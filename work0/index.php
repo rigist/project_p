@@ -2,8 +2,10 @@
 include './constants.php';
 include './funcs.php';
 
-$user_name = "Igor";
+$userName = "Igor";
 
-if (1) {
+if (1 == 1) {
     echo 'hi';
 }
+
+ 
