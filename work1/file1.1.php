@@ -6,6 +6,7 @@ echo '<br>';
 echo "Мне $age лет";
 echo '<br>';
 //    “!|/’”\
- echo "“!|/’”\\";
+ echo "\"!|/'\"\\";
+
 //https://onlinephp.io/
 
