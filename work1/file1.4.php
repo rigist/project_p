@@ -1,6 +1,6 @@
 <?php
 
-$day = 3;
+$day = random_int(-1, 9);
 
 switch ($day) {
     case 1:
