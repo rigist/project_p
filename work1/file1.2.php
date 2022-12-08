@@ -4,6 +4,6 @@ const PICTURES = 80;
 const FLOMASTERS = 23;
 const PENSILS = 40;
 
-$result = PICTURES - FLOMASTERS - PENSILS;
+$result = "Красками сделано: " . PICTURES - FLOMASTERS - PENSILS;
 
 echo $result;
