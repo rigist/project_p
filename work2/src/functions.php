@@ -16,6 +16,12 @@ function task1($strs, $bool)
 
 function task2($type, ...$args)
 {
+
+    foreach ($args as $i => $arg) {
+        if (!is_int($arg) && !is_float($arg)) {
+            trigger_error( $i . ' аргумент не integer и не float');     
+        }
+    }	
      
     switch ($type) {
         case '+':
@@ -24,7 +30,7 @@ function task2($type, ...$args)
             return array_shift($args) - array_sum($args);
         case '/':
             $res = array_shift($args);
-            foreach ($args as $i => $arg) {
+            foreach ($args as  $arg) {
                 if ($arg == 0) {
                      
                     return 'Деление на ноль';
@@ -66,9 +72,7 @@ function task3($a, $b)
     for ($i = 1; $i <= $a; $i++) {
         $res .= '<tr>';
         for ($j = 1; $j <= $b; $j++) {
-            $res .= '<td>';
-            $res .= $i * $j;
-            $res .= '</td>';
+	    $res .= '<td>' . $i * $j . '</td>';	
         }
         $res .= '</tr>';
     }
