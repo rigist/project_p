@@ -1,35 +1,27 @@
 <?php
 
-CONST host = "localhost"; 
-CONST db = "testdb1";
-CONST login = "root";
-CONST pass = "root";
-CONST table_new = "burgers4";
+CONST HOST = "localhost"; 
+CONST DB = "testdb1";
+CONST LOGIN = "root";
+CONST PASS = "root";
+CONST TABLE_NEW = "burgers4";
 
 if (isset($_POST["email"]) && $_POST["email"] !== "") {
-  //echo "<br>";
-  //var_dump($_POST["email"]);
 
   $email_new = $_POST["email"];
 
-  //echo "<br>";
-  //var_dump("addr: $_POST[street] $_POST[home] $_POST[part] $_POST[appt] $_POST[floor]");
-
-  $addr_new = "ул. $_POST[street], д. $_POST[home], корп. $_POST[part], кв. $_POST[appt], эт. $_POST[floor]";
+  $addr_new = "ул. " . $_POST["street"] . ", д. " . $_POST["home"] . ", корп. " . $_POST["part"] . ", кв. " . $_POST["appt"] . ", эт. " . $_POST["floor"];
 
   if (testEmail($email_new) == false) {   
-    add_user($email_new, $addr_new);   
+    addUser($email_new, $addr_new);   
   } else {
-    update_user($email_new);
+    updateUser($email_new);
   }
 
   message($email_new);
 }
 
-
-
-
-function add_user($email_one, $adress_one)
+function addUser($email_one, $adress_one)
 {
   try {
     $conn3 = new PDO("mysql:host=localhost;dbname=testdb1", "root", "root");
@@ -42,15 +34,10 @@ function add_user($email_one, $adress_one)
     
     $affectedRowsNumber = $stmt3->execute();
     
-    //if ($affectedRowsNumber > 0) {
-      //echo "Data successfully added: name=" . $email_one . "  adress= " . $adress_one;
-    //}
   } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
   }
 } //add_user
-
-
 
 function testEmail($test_email)
 {
@@ -74,9 +61,7 @@ function testEmail($test_email)
   }
 } // testEmail
 
-
-
-function update_user($email_one)
+function updateUser($email_one)
 {
   try {
     
@@ -88,13 +73,10 @@ function update_user($email_one)
 
     $stmt5->execute();;
 
-    //echo "Обновлены строк: ";
   } catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
   }
 } 
-
- 
 
 function message ($email_two){
   try {
@@ -103,17 +85,12 @@ function message ($email_two){
     $stmt = $conn->prepare($sql);
     $stmt->bindValue(":useremail", $email_two);
     $stmt->execute();
-   // echo ">>>>";
-   // echo "<br>";
-   // var_dump($stmt);
 
     if($stmt->rowCount() > 0){
       foreach ($stmt as $row) {
-      //  echo "<br>";
-      //  var_dump($row);
         $adr = $row["adress"];
         $n  = $row["orders_count"];
-        $id_new = "$row[id]-$row[email]-$row[mydate]-$row[orders_count]";
+        $id_new = $row["id"] . "-" . $row["email"] . "-" . $row["mydate"] . "-" . $row["orders_count"];
       }
     }
 
@@ -125,28 +102,9 @@ function message ($email_two){
     echo "Номер вашего заказа: #$id_new";
     echo "<br>";
     echo "Это ваш $n-й заказ!"; 
-
-    
-
     }
     catch (PDOException $e) {
     echo "Database error: " . $e->getMessage();
     }
 }
  
-
-
-if (false) {
-  try {
-    
-    $conn = new PDO("mysql:host=localhost;dbname=testdb1", "root", "root");
-    
-
-    $sql = "create table burgers4 (id integer auto_increment primary key, email varchar(255) unique key, orders_count integer default '0', mydate datetime default current_timestamp, adress varchar(255));";
-
-    $conn->exec($sql);
-    echo "Tables has been created";
-  } catch (PDOException $e) {
-    echo "Database error: " . $e->getMessage();
-  }
-}
